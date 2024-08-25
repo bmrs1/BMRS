@@ -1,0 +1,11 @@
+{
+  "name": "text-to-voice-website",
+  "version": "1.0.0",
+  "description": "A simple text-to-voice conversion website using eSpeak.",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'This is a static site, no build required.'"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
