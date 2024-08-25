@@ -1,0 +1,76 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        select, input[type=range], button {
+            margin: 10px 0;
+        }
+
+        audio {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text to Audio Converter</h1>
+    <textarea id="text-input" placeholder="Enter text here..."></textarea><br>
+    <label for="voice-select">Voice:</label>
+    <select id="voice-select">
+        <option value="en">English</option>
+        <option value="en-us">English (US)</option>
+        <!-- Add more voices as needed -->
+    </select><br>
+    <label for="speed-range">Speed:</label>
+    <input type="range" id="speed-range" min="80" max="390" value="175"><br>
+    <label for="pitch-range">Pitch:</label>
+    <input type="range" id="pitch-range" min="0" max="99" value="50"><br>
+    <button id="convert-button">Convert to Audio</button>
+    <br><br>
+    <audio id="audio-output" controls></audio>
+    <br>
+    <a id="download-link" style="display: none;">Download MP3</a>
+
+    <script>
+        document.getElementById('convert-button').addEventListener('click', function() {
+            const text = document.getElementById('text-input').value;
+            const voice = document.getElementById('voice-select').value;
+            const speed = document.getElementById('speed-range').value;
+            const pitch = document.getElementById('pitch-range').value;
+
+            const apiUrl = `https://espeak.sourceforge.net/speak_lib.h`;
+
+            fetch(apiUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audioUrl = URL.createObjectURL(blob);
+                    const audio = document.getElementById('audio-output');
+                    audio.src = audioUrl;
+                    audio.play();
+
+                    // Show download link
+                    const downloadLink = document.getElementById('download-link');
+                    downloadLink.href = audioUrl;
+                    downloadLink.download = 'audio.mp3';
+                    downloadLink.style.display = 'block';
+                    downloadLink.innerText = 'Download MP3';
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
